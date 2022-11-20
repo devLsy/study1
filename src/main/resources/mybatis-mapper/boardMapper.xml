@@ -21,6 +21,10 @@
         FROM ${tableName}
     </select>
 
+    <select id="findBoardList" resultType="paging.study.domain.vo.BoardVO">
+        SELECT * FROM t_Board
+    </select>
+
     <insert id="insertBoard" parameterType="hashmap">
         INSERT INTO t_board
             (

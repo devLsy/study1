@@ -43,6 +43,7 @@ public class BoardService {
         return boardMapper.findTest(param);
     }
 
+
     public Long findMaxBoardSeq() {
         return boardMapper.findMaxBoardSeq();
     }
