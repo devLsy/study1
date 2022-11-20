@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+
+    <a href="#" th:href="@{/admin/board/list}" class="btn btn-primary" role="button"><h2>목록</h2></a>
+
+    <form th:object="${boardForm}" method="post">
+        <!-- id -->
+        <input id="boardSeq" type="hidden" th:field="*{boardSeq}" />
+
+        <div class="form-group">
+            <label th:for="title"></label>
+            <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요" />
+        </div>
+
+        <div class="form-group">
+            <label th:for="content">content</label>
+            <input type="text" th:field="*{content}" class="form-control" placeholder="내용을 입력하세요"/>
+        </div>
+
+        <div class="form-group">
+            <label th:for="name">name</label>
+            <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br><hr>
+        <!-- reply  -->
+        <div class="container">
+            <label th:for="replyContent"><h2>reply</h2></label>
+                <div id="replyArea1">
+                    <input type="text" name="replyContent" id="replyContent" placeholder="댓글을입력해주세요."/>
+                    <input type="text" name="replyWriter" id="replyWriter" placeholder="작성자를 입력해주세요."/>
+                    <span>
+                        <button type="button" id="replyBtn" onclick="insertReply();">regist</button>
+                    </span>
+                </div>
+        </div>
+        <br>
+    </form>
+        <!-- reply area -->
+        <div class="container">
+            <div id="replyList"></div>
+        </div>
+
+        <div>
+            <ul id="reply-pagination" class="pagination pagination-sm no-margin pull-right"></ul>
+        </div>
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+<!-- 댓글은 js/reply/reply.js에서 처리 -->
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <a href="#" th:href="@{/admin/main}" class="btn btn-primary" role="button">관리자 홈</a>
+    <div>
+        <div>
+            <form th:object="${cri}" method="get" class="form-inline">
+                <div class="form-group mb-2">
+                    <input type="text" th:field="*{title}" class="form-control" placeholder="제목"/>
+                </div>
+                <div class="form-group mx-sm-1 mb-2">
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="이름"/>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </form>
+        </div>
+
+    <a href="#" th:href="@{/admin/board/new}" class="btn btn-primary" role="button">등록</a>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성자</th>
+                <th th:each="menu : ${menuList}" th:text="${menu.menuName}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${list}">
+                <td th:text="${item.boardSeq}"></td>
+                <input id="boardSeq" type="hidden" name="boardSeq" th:value="${item.boardSeq}">
+                <td th:text="${item.title}"></td>
+                <td th:text="${item.contents}"></td>
+                <td th:text="${item.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 게시판 하단의 페이지네이션 영역 start -->
+    <div class="pull-right">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <li th:if="${pageMaker.prev} == true">
+                <a th:href="@{/admin/board/list(pageNum=${pageMaker.startPage}-1)}">Prev</a>
+            </li>
+            <li id="paginate_btn" th:each="idx: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}" th:classappend="${pageMaker.cri.pageNum} == ${idx} ? active : null">
+                <a th:href="@{/admin/board/list(pageNum=${idx})}" th:text="${idx}"></a>
+            </li>
+            <li th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+                <a th:href="@{/admin/board/list(pageNum=${pageMaker.endPage}+1)}">Next</a>
+            </li>
+        </ul>
+    </div>
+    <!-- // 게시판 하단의 페이지네이션 영역 end -->
+
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+    <script>
+        let boardId = $("#boardId").val();
+        $("#del").on("click", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url : '/board/del',
+                type : 'post',
+                data : {'boardId': boardId},
+                success: function (data) {
+                    $(location).attr("href", "/board/list");
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

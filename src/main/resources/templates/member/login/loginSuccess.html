@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<h2>로그인 성공</h2>
+
+<div class="container">
+    <span sec:authentication="name"></span>님 환영합니다~
+    <a th:href="@{'/'}">메인으로 이동</a>
+    <a th:href="@{'/member/logoutPrc'}">로그아웃</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <form action="/file/del" method="post">
+    <div>
+        <a href="#" th:href="@{/file/upload}" class="btn btn-primary" role="button">등록</a>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>파일명</th>
+                    <th>등록일</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="item : ${list}">
+                    <input type="hidden" th:value="${item.fileId}" name="fileId"></inpuut>
+                    <td th:text="${item.fileId}"></td>
+                    <td th:text="${item.orgFileName}"></td>
+                    <td th:text="${item.regDate}"></td>
+                    <td>
+                        <a th:href="@{/file/{fileId}/download(fileId=${item.fileId})}" class="btn btn-primary" role="button">다운로드</a>
+                    </td>
+                    <td>
+                        <button id="delBtn" type="submit">삭제</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 게시판 하단의 페이지네이션 영역 start -->
+<!--        <div class="pull-right">-->
+<!--            <ul class="pagination pagination-sm no-margin pull-right">-->
+<!--                <li th:if="${pageMaker.prev} == true">-->
+<!--                    <a th:href="@{/board/list(pageNum=${pageMaker.startPage}-1)}">Prev</a>-->
+<!--                </li>-->
+<!--                <li id="paginate_btn" th:each="idx: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}" th:classappend="${pageMaker.cri.pageNum} == ${idx} ? active : null">-->
+<!--                    <a th:href="@{/board/list(pageNum=${idx})}" th:text="${idx}"></a>-->
+<!--                </li>-->
+<!--                <li th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">-->
+<!--                    <a th:href="@{/board/list(pageNum=${pageMaker.endPage}+1)}">Next</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+        <!-- // 게시판 하단의 페이지네이션 영역 end -->
+
+
+        <div th:replace="fragments/footer :: footer" />
+
+    </div> <!-- /container -->
+    </form>
+</body>
+</html>

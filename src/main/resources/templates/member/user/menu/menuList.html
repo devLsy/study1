@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <h2>사용자 메뉴목록입니다.</h2>
+
+    <span sec:authentication="name"></span>님 환영합니다~
+    <a sec:authorize="isAuthenticated()" th:href="@{/member/logoutPrc}">로그아웃</a> <br>
+    <a href="#" th:href="@{/}" class="btn btn-primary" role="button">홈</a>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>메뉴코드</th>
+                <th>메뉴명</th>
+                <th>메뉴설명</th>
+                <th>등록일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--            <tr th:each="member : ${response.getList()}">-->
+            <tr th:each="item : ${list}">
+                <td th:text="${item.menuCode}"></td>
+                <td th:text="${item.menuName}"></td>
+                <td th:text="${item.menuDesc}"></td>
+                <td th:text="${item.regDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+</body>
+</html>

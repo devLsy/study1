@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <form th:action="@{/member/loginProc}" method="post">
+<!--    <form action="/member/login" method="post">-->
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+        <div>
+            <label th:for="name">아이디</label>
+            <input type="text" name="userId" class="form-control" placeholder="아이디를 입력하세요">
+            <br>
+            <label th:for="name">비밀번호</label>
+            <input type="password" name="userPassword" class="form-control" placeholder="비밀번호를 입력하세요">
+            <br>
+            <button type="submit">로그인</button>
+            <span><a th:href="@{/member/join}">회원가입</a></span>
+
+            <div th:replace="fragments/footer :: footer" />
+
+            <a th:href="@{'/'}">메인으로 이동</a>
+        </div> <!-- /container -->
+    </form>
+</body>
+</html>

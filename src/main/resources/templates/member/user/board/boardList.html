@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <h2>게시글목록입니다.</h2>
+
+    <span sec:authentication="name"></span>님 환영합니다~
+    <a sec:authorize="isAuthenticated()" th:href="@{/member/logoutPrc}">로그아웃</a> <br>
+    <a href="#" th:href="@{/}" class="btn btn-primary" role="button">홈</a>
+
+<!--    <input type="hidden" id="csrfToken" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${list}">
+                <td th:text="${item.boardSeq}"></td>
+                <input id="boardSeq" type="hidden" name="boardSeq" th:value="${item.boardSeq}">
+                <td th:text="${item.title}"></td>
+                <td th:text="${item.contents}"></td>
+                <td th:text="${item.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 게시판 하단 페이지네이션 영역 start -->
+    <div class="pull-right">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <!-- prev -->
+            <li th:if="${pageMaker.prev} == true">
+                <a th:href="@{/board/list(pageNum=${pageMaker.startPage}-1)}">Prev</a>
+            </li>
+            <!-- pageMaker의 startPage부터 endPage까지 루프, a태그의 href에 idx를 링크(get방식으로 pageNum을 붙여서) -->
+            <li id="paginate_btn" th:each="idx: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}" th:classappend="${pageMaker.cri.pageNum} == ${idx} ? active : null">
+                <a th:href="@{/board/list(pageNum=${idx})}" th:text="${idx}"></a>
+            </li>
+            <!-- next -->
+            <li th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+                <a th:href="@{/board/list(pageNum=${pageMaker.endPage}+1)}">Next</a>
+            </li>
+        </ul>
+    </div>
+    <!-- // 게시판 하단의 페이지네이션 영역 end -->
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+<script>
+    let boardSeq = $("#boardSeq").val();
+    // csrfToken 같이 넘겨야 에러 안남
+    let csrfToken = $("#csrfToken").val();
+    $("#del").on("click", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url : '/board/del',
+            type : 'post',
+            data : {'boardSeq': boardSeq},
+            success: function (data) {
+                $(location).attr("href", "/board/list");
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

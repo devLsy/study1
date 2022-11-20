@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="paging.study.mapper.BoardMapper">
+<!--    <resultMap id="boardMap" type="paging.study.domain.vo.BoardVO">-->
+    <resultMap id="boardMap" type="hashmap">
+        <id column="board_seq" property="boardSeq"/>
+        <result column="title" property="title"/>
+        <result column="contents" property="contents"/>
+        <result column="name" property="name"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <select id="findTest" parameterType="hashmap" resultType="hashmap">
+        SELECT
+        <foreach collection="column" item="column" separator=",">
+            ${column}
+        </foreach>
+        FROM ${tableName}
+    </select>
+
+    <insert id="insertBoard" parameterType="hashmap">
+        INSERT INTO t_board
+            (
+             <foreach collection="column" item="column" separator=",">
+                ${column}
+             </foreach>
+             , reg_date
+             , update_date
+             )
+        VALUES
+            (
+            <foreach collection="column_value" item="column_value" separator=",">
+                #{column_value}
+            </foreach>
+            , now()
+            , now()
+            )
+        <selectKey keyColumn="board_seq" resultType="Long" order="AFTER" keyProperty="boardSeq">
+            SELECT LAST_INSERT_ID() as boardSeq
+        </selectKey>
+    </insert>
+
+    <select id="findBoardListPaging" parameterType="paging.study.domain.Criteria" resultMap="boardMap">
+        SELECT * FROM t_board
+        <where>
+            <if test="title != null and title != ''"> title = #{title} </if>
+            <if test="name != null and name != ''"> AND name = #{name} </if>
+        </where>
+        ORDER BY reg_date DESC
+        limit #{pageNum}, #{amount}
+    </select>
+
+    <select id="findBoardDetail" parameterType="Long" resultMap="boardMap">
+        SELECT * FROM t_board WHERE board_seq = #{boardSeq}
+
+    </select>
+
+    <select id="findBoardListUseYByPaging" parameterType="paging.study.domain.Criteria" resultMap="boardMap">
+        SELECT * FROM t_board
+        ORDER BY reg_date DESC
+        limit #{pageNum}, #{amount}
+    </select>
+
+    <!-- board update -->
+    <update id="updateBoard" parameterType="map">
+        UPDATE t_board SET
+         title = #{boardVO.title},
+         content = #{boardVO.content},
+         name = #{boardVO.name},
+         update_date = now()
+        WHERE board_seq = #{boardSeq}
+    </update>
+
+    <!--게시판필드 추가(타입도 변수로 처리해야 될까?)-->
+    <update id="addBoardField" parameterType="String">
+        ALTER TABLE t_board ADD COLUMN ${boardField} varchar(50)
+    </update>
+
+    <!--게시판필드 삭제-->
+    <update id="delBoardField" parameterType="String">
+        ALTER TABLE t_board drop COLUMN ${boardField}
+    </update>
+
+</mapper>

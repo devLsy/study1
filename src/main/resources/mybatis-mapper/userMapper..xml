@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="paging.study.mapper.UserMapper">
+    <resultMap id="userMap" type="paging.study.domain.vo.UserVO">
+        <id column="user_seq" property="userSeq"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_birth" property="userBirth"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_level" property="userLevel"/>
+        <result column="use_yn" property="useYn"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <insert id="createMember" parameterType="paging.study.domain.vo.UserVO">
+        INSERT INTO t_user
+            (user_id, user_name, user_password, user_birth, user_phone, user_level, use_yn, reg_date, update_date)
+        VALUES
+            (#{userId}, #{userName}, #{userPassword}, #{userBirth}, #{userPhone}, #{userLevel}, #{useYn}, now(), now())
+        <selectKey keyColumn="user_seq" resultType="Long" order="AFTER" keyProperty="userSeq">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="findMemberInfo" parameterType="String" resultMap="userMap">
+        SELECT * FROM t_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--전체 회원 목록-->
+    <select id="findAllMembersPaging" parameterType="paging.study.domain.Criteria" resultMap="userMap">
+        SELECT * FROM t_user
+        ORDER BY reg_date DESC
+        limit #{pageNum}, #{amount}
+    </select>
+
+    <!--사용 중 회원 목록-->
+    <select id="findUseMembersPaging" parameterType="paging.study.domain.Criteria" resultMap="userMap">
+        SELECT * FROM t_user
+        WHERE use_yn = 'Y'
+        ORDER BY reg_date DESC
+        limit #{pageNum}, #{amount}
+    </select>
+
+    <update id="modifyMember" parameterType="map">
+        UPDATE t_user
+        SET user_name = #{userName},
+            user_birth = #{userBirth},
+            user_phone = #{userPhone},
+            user_level = #{userLevel}
+            use_yn = #{useYn}
+        WHERE user_seq = #{userSeq}
+    </update>
+
+
+</mapper>

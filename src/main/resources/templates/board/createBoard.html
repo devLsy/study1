@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+    .ta {
+        width: 50%;
+        height: 100px;
+    }
+</style>
+<body>
+
+<div class="container">
+
+    <a href="#" th:href="@{/admin/board/list}" class="btn btn-primary" role="button">목록</a>
+
+    <form role="form" th:action="@{/admin/board/new}" th:object="${boardForm}" method="post" enctype="multipart/form-data">
+        <div class="form-group" th:each="item : ${menuList}" th:if="${item.menuType == 'F'}">
+            <label th:for="${item.menuName}" th:text="${item.menuName}"></label>
+            <!-- 필드상태에 따라 input 다르게 -->
+            <input type="file" th:name="${item.menuCode}" th:placeholder="${item.menuName}">
+<!--            <input type="text" th:name="${item.menuCode}" class="form-control" th:placeholder="${item.menuName}">-->
+        </div>
+        <div class="form-group" th:each="item : ${menuList}" th:if="${item.menuType == 'T'}">
+            <label th:for="${item.menuName}" th:text="${item.menuName}"></label>
+            <!-- 필드상태에 따라 input 다르게 -->
+            <input type="text" th:name="${item.menuCode}" th:placeholder="${item.menuName}">
+            <!--            <input type="text" th:name="${item.menuCode}" class="form-control" th:placeholder="${item.menuName}">-->
+        </div>
+        <div class="form-group" th:each="item : ${menuList}" th:if="${item.menuType == 'TA'}">
+            <label th:for="${item.menuName}" th:text="${item.menuName}"></label>
+            <!-- 필드상태에 따라 input 다르게 -->
+            <textarea class="ta" th:name="${item.menuCode}" th:placeholder="${item.menuName}"></textarea>
+            <!--            <input type="text" th:name="${item.menuCode}" class="form-control" th:placeholder="${item.menuName}">-->
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+
+</body>
+</html>

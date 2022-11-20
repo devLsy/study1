@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="paging.study.mapper.ReplyMapper">
+    <resultMap id="replydMap" type="paging.study.domain.vo.ReplyVO">
+        <id column="reply_id" property="replyId"/>
+        <result column="board_id" property="boardId"/>
+        <result column="reply_content" property="replyContent"/>
+        <result column="reply_writer" property="replyWriter"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <insert id="insertReply" parameterType="paging.study.domain.vo.ReplyVO">
+        INSERT INTO t_reply(board_id, reply_content, reply_writer, reg_date, update_date)
+        VALUES (#{boardId}, #{replyContent}, #{replyWriter}, now(), now())
+    </insert>
+
+    <select id="findReplyListPaging" parameterType="map" resultMap="replydMap">
+        SELECT * FROM t_reply
+        WHERE board_id = #{boardId}
+        ORDER BY reg_date DESC
+        limit #{cri.pageNum}, #{cri.amount}
+    </select>
+
+    <select id="findListNotPaging" parameterType="Long" resultMap="replydMap">
+        SELECT * FROM t_reply
+        WHERE board_id = #{boardId}
+        ORDER BY reg_date DESC
+    </select>
+
+    <select id="findCount" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM t_reply
+        WHERE board_id = #{boardId}
+    </select>
+
+    <select id="findReplyDetail" parameterType="Long" resultMap="replydMap">
+        SELECT * FROM t_reply WHERE board_id = #{boardId}
+    </select>
+
+    <update id="updateReply" parameterType="map">
+        UPDATE t_reply SET
+         reply_content = #{replyContent},
+         update_date = now()
+        WHERE reply_id = #{replyId}
+    </update>
+
+    <delete id="delReply" parameterType="Long">
+        DELETE FROM t_reply
+        WHERE reply_id = #{replyId}
+    </delete>
+</mapper>

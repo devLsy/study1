@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+    .menu {
+        width: 10%;
+    }
+</style>
+<body>
+<h2>메뉴 등록</h2>
+<div class="container">
+
+<!--    <a href="#" th:href="@{/admin/board/list}" class="btn btn-primary" role="button">목록</a>-->
+    <a href="#" th:href="@{/admin/main}" class="btn btn-primary" role="button">관리자 홈</a>
+    <button id="addBtn" class="btn btn-primary">메뉴추가</button>
+    <a href="#" th:href="@{/admin/menu/list}" class="btn btn-primary" role="button">목록</a>
+    <br>
+    <form role="form" th:action="@{/admin/menu/new}" th:object="${menuForm}" method="post" onsubmit="return check();">
+        <div class="form-group" th:if="${#lists.size(menuList) > 0}">
+<!--        <div class="form-group" th:each=" item : ${menuList}">-->
+<!--            <span>기존 메뉴 있음</span>-->
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>메뉴코드</th>
+                    <th>메뉴명</th>
+                    <th>메뉴타입</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item: ${menuList}">
+                    <td th:text="${item.menuCode}"></td>
+                    <td th:text="${item.menuName}"></td>
+                    <td th:text="${item.menuType}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group" th:unless="${#lists.size(menuList) > 0}">
+            <!--        <div class="form-group" th:each=" item : ${menuList}">-->
+<!--            <span>기존 메뉴 없음</span>-->
+        </div>
+
+        <div class="form-group" id="menuArea"></div>
+
+
+
+
+<!--            <label th:for="menuCode">메뉴코드(게시판 컬럼물리명)</label>-->
+<!--            <input type="text" th:field="*{menuCode}" class="form-control" placeholder="메뉴코드 입력하세요">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label th:for="menuName">메뉴명(게시판 컬럼논리명)</label>-->
+<!--            <input type="text" th:field="*{menuName}" class="form-control" placeholder="메뉴명 입력하세요">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label th:for="menuDesc">메뉴설명(게시판 컬럼 설명)</label>-->
+<!--            <input type="text" th:field="*{menuDesc}" class="form-control" placeholder="메뉴설명 입력하세요">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label th:for="menuOrder">정렬순서</label>-->
+<!--            <input type="text" th:field="*{menuOrder}" class="form-control" placeholder="정렬순서 입력하세요">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="useYn">사용여부</label>-->
+<!--            <select name="useYn" id="useYn" class="form-control">-->
+<!--                <option value="Y" selected="selected">사용</option>-->
+<!--                <option value="N">미사용</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+        <button id="submitBtn" type="submit" class="btn btn-primary">등록</button>
+<!--        <a href="#" th:href="@{/admin/menu/list}" class="btn btn-primary" role="button">목록</a>-->
+    </form>
+
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+
+<script>
+
+    $(document).ready(function () {
+        $("#submitBtn").hide();
+    });
+
+    $("#addBtn").on("click", function () {
+        // select box에서 체크한 값은 이넘 클래스에 있는 값인지 체크
+        let addMenu = "<input type='text' id='menuCode' name='menuCode' placeholder='메뉴코드명을 입력하세요.(영문)'> <br>";
+            addMenu += "<input type='text' id='menuName' name='menuName' placeholder='메뉴명을 입력하세요.'> <br>";
+            addMenu += "<select id='menuType' name='menuType'>";
+            addMenu += "<option value=''>선택 해주세요.</option>";
+            addMenu += "<option value='T'>text</option>";
+            addMenu += "<option value='TA'>text-area</option>";
+            addMenu += "<option value='F'>file</option>";
+            addMenu += "<option value='S'>select-box</option>";
+            addMenu += "<option value='CH'>check-box</option>";
+            addMenu += "</select>";
+        $("#menuArea").html(addMenu);
+        $("#submitBtn").show();
+    });
+
+    function check() {
+        let menuCode = $("#menuCode").val();
+        let menuName = $("#menuName").val();
+
+        // 유효성 체크 하는 것 따로 뺄 것
+        if (menuCode === undefined || menuCode === "" || menuCode === " ") {
+            alert("메뉴코드는 필수값입니다.");
+            $("#menuCode").focus();
+            return false;
+        }
+
+        const pattern_eng = /[a-zA-Z]/;	// 문자
+        const pattern_num = /[0-9]/;
+        if (!pattern_eng.test(menuCode)) {
+            alert("메뉴코드는 영문만 입력 가능합니다.");
+            $("#menuCode").focus();
+            return false;
+        }
+
+        let result = duplicateCheck(menuCode);
+
+        // 값이 있으면
+        if (result > 0) {
+            alert("이미 중복된 메뉴코드가 있습니다.\n다른 코드를 입력 해주세요.");
+            $("#menuCode").focus();
+            return false;
+        }
+
+        if (menuName === undefined || menuName === "" || menuName === " ") {
+            alert("메뉴명은 필수값입니다.");
+            $("#menuName").focus();
+            return false;
+        }
+
+        if($("#menuType").val() == ''){
+            alert("메뉴타입은 필수값입니다.");
+            $("#menuType").focus();
+            return false;
+        }
+
+        if (!confirm("메뉴를 등록 하시겠습니까?")) {
+            return false;
+        }
+    }
+
+    function duplicateCheck(menuCode) {
+        let duplicate_result;
+        $.ajax({
+            url : '/admin/menu/duplicateCheck',
+            async: false,
+            type : 'post',
+            data : {'menuCode': menuCode},
+            success: function (data) {
+                // alert("data : " + data);
+                duplicate_result = data;
+            }
+        });
+        return duplicate_result;
+    }
+</script>
+
+</body>
+</html>

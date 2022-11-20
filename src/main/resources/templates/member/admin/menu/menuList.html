@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <h2>메뉴관리 페이지입니다.</h2>
+
+    <!-- 얘관리자 메뉴 헤더도 따로 빼자 -->
+    <span sec:authentication="name"></span>님 환영합니다~
+    <a sec:authorize="isAuthenticated()" th:href="@{/member/logoutPrc}">로그아웃</a> <br>
+    <a href="#" th:href="@{/admin/main}" class="btn btn-primary" role="button">관리자 홈</a>
+    <a href="/admin/menu/new" th:text="메뉴추가"></a>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>메뉴코드</th>
+                <th>메뉴명</th>
+                <th>메뉴타입</th>
+                <th>등록일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--            <tr th:each="member : ${response.getList()}">-->
+            <tr th:each="item : ${list}" th:if="${#lists.size(list) > 0}">
+                <input type="hidden" id="menuSeq" th:value="${item.menuSeq}"/>
+                <td id="menuCode" th:text="${item.menuCode}"></td>
+                <td th:text="${item.menuName}"></td>
+                <td th:text="${item.menuType}"></td>
+                <td th:text="${item.regDate}"></td>
+                <td>
+                    <a th:href="@{/board/{boardId}/edit (boardId=${item.menuSeq})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+                <td>
+                    <a href="#" id="del" class="btn btn-primary" role="button">삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <div th:replace="fragments/footer :: footer" />
+
+    </div> <!-- /container -->
+
+<script>
+    let menuSeq = $("#menuSeq").val();
+    let menuCode = $("#menuCode").val();
+    $("#del").on("click", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url : '/admin/menu/del',
+            type : 'post',
+            data : {'menuSeq': menuSeq, 'menuCode': menuCode},
+            success: function (data) {
+                $(location).attr("href", "/admin/menu/list");
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

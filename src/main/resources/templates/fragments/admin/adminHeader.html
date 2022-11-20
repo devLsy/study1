@@ -1,0 +1,5 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<span sec:authentication="name">님 환영합니다~</span>
+<a sec:authorize="isAuthenticated()" th:href="@{/member/logoutPrc}">로그아웃</a> <br>
+<a href="#" th:href="@{/admin}" class="btn btn-primary" role="button">관리자 홈</a>

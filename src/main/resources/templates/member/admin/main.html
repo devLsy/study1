@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <h2>관리자 페이지 메인입니다.</h2>
+
+        <span sec:authentication="name"></span>님 환영합니다~
+        <a sec:authorize="isAuthenticated()" th:href="@{/member/logoutPrc}">로그아웃</a> <br>
+
+    <div>
+        <span><a th:href="@{/admin/menu/list}" th:text="메뉴관리"></a></span>
+        <span><a th:href="@{/admin/board/list}" th:text="게시판관리"></a></span>
+        <span><a th:href="@{/admin/user/list}" th:text="회원관리"></a></span>
+
+        <div th:replace="fragments/footer :: footer" />
+
+    </div> <!-- /container -->
+
+</body>
+</html>

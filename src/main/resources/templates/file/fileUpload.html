@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+
+    <h2>파일 업로드</h2>
+    <form action="/file/upload" method="post" enctype="multipart/form-data">
+
+        <h4>단일 파일 업로드</h4>
+        <input type="file" name="file">
+
+        <h4>다중 파일 업로드</h4>
+        <input type="file" multiple="multiple" name="files">
+        <input type="submit"/>
+    </form>
+
+    <a th:href="@{/file/list}">목록</a>
+<div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+    <h2>회원목록입니다.</h2>
+
+    <span sec:authentication="name"></span>님 환영합니다~
+    <a sec:authorize="isAuthenticated()" th:href="@{/member/logoutPrc}">로그아웃</a> <br>
+    <a href="#" th:href="@{/admin/main}" class="btn btn-primary" role="button">관리자 홈</a>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>생년월일</th>
+                <th>사용여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--            <tr th:each="member : ${response.getList()}">-->
+            <tr th:each="item : ${list}">
+                <td th:text="${item.userSeq}"></td>
+                <td th:text="${item.userId}"></td>
+                <td th:text="${item.userName}"></td>
+                <td th:text="${item.userBirth}"></td>
+                <td th:text="${item.useYn}"></td>
+                <td>
+                    <a th:href="@{/admin/user/{userSeq}/edit(useSeq=${item.userSeq})}" class="btn btn-primary" role="button">수정</a>
+                </td>
+                <td>
+                    <a href="#" id="del" class="btn btn-primary" role="button">삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 게시판 하단 페이지네이션 영역 start -->
+    <div class="pull-right">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <!-- prev -->
+            <li th:if="${pageMaker.prev} == true">
+                <a th:href="@{/board/list(pageNum=${pageMaker.startPage}-1)}">Prev</a>
+            </li>
+            <!-- pageMaker의 startPage부터 endPage까지 루프, a태그의 href에 idx를 링크(get방식으로 pageNum을 붙여서) -->
+            <li id="paginate_btn" th:each="idx: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}" th:classappend="${pageMaker.cri.pageNum} == ${idx} ? active : null">
+                <a th:href="@{/board/list(pageNum=${idx})}" th:text="${idx}"></a>
+            </li>
+            <!-- next -->
+            <li th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+                <a th:href="@{/board/list(pageNum=${pageMaker.endPage}+1)}">Next</a>
+            </li>
+        </ul>
+    </div>
+    <!-- // 게시판 하단의 페이지네이션 영역 end -->
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+</body>
+</html>
