@@ -27,8 +27,8 @@ class MenuServiceTest {
     @Commit
     public void createMenu() throws Exception {
 
-        MenuVO menuVO = new MenuVO("title", "제목", MenuType.TEXT.getValue(), "Y");
-        menuService.createMenu(menuVO);
+//        MenuVO menuVO = new MenuVO("title", "제목", MenuType.TEXT.getValue(), "Y");
+//        menuService.createMenu(menuVO);
     }
 
     @Test

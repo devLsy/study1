@@ -18,14 +18,18 @@ public class MenuVO {
     private String menuName;
     @NotBlank(message = "메뉴타입은 필수값입니다.")
     private String menuType;
+    @NotBlank(message = "컬럼타입은 필수값입니다.")
+    private String columnType;
+
     private String useYn;
     private String regDate;
     private String updateDate;
 
-    public MenuVO(String menuCode, String menuName, String menuType, String useYn) {
+    public MenuVO(String menuCode, String menuName, String menuType, String columnType, String useYn) {
         this.menuCode = menuCode;
         this.menuName = menuName;
         this.menuType = menuType;
+        this.columnType = columnType;
         this.useYn = useYn;
     }
 }

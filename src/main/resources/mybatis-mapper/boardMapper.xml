@@ -82,7 +82,7 @@
 <!--    <update id="addBoardField" parameterType="String">-->
     <!-- 타입도 변수 처리 하자(2022-11-22 추가 요구사항) -->
     <update id="addBoardField" parameterType="map">
-        ALTER TABLE t_board ADD COLUMN ${boardField} ${menuType}
+        ALTER TABLE t_board ADD COLUMN ${boardField} ${columnType}
     </update>
 
     <!--게시판필드 삭제-->

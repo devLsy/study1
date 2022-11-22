@@ -41,7 +41,7 @@ public interface BoardMapper {
     void deleteBoard(Long boardSeq);
 
 //    void addBoardField(String boardField);
-    void addBoardField(@Param("boardField") String boardField, @Param("menuType") String menuType);
+    void addBoardField(@Param("boardField") String boardField, @Param("columnType") String columnType);
 
     void delBoardField(String boardField);
 }

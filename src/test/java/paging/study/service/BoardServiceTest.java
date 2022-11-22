@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import paging.study.domain.Criteria;
+import paging.study.domain.enu.ColumnType;
 import paging.study.domain.vo.BoardVO;
 
 import java.util.ArrayList;
@@ -63,9 +64,18 @@ class BoardServiceTest {
     @Test
     @DisplayName("addField")
     @Commit
-    public void addField() {
+    public void addField() throws Exception {
         //given
-        boardService.addBoardField("gasi", "int");
+        String boardField, columnType;
+        boardField = "gori";
+        columnType = "BIGINT"; // 일부러 오탈자
+
+        if (ColumnType.valueCheck(columnType)) {
+        boardService.addBoardField(boardField, columnType);
+        } else {
+            throw new Exception("범위에 없다.");
+        }
+
         // when
 
         //then
