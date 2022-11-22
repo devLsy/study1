@@ -94,6 +94,7 @@
         // select box에서 체크한 값은 이넘 클래스에 있는 값인지 체크
         let addMenu = "<input type='text' id='menuCode' name='menuCode' placeholder='메뉴코드명을 입력하세요.(영문)'> <br>";
             addMenu += "<input type='text' id='menuName' name='menuName' placeholder='메뉴명을 입력하세요.'> <br>";
+
             addMenu += "<select id='menuType' name='menuType'>";
             addMenu += "<option value=''>메뉴 타입을 선택 해주세요.</option>";
             addMenu += "<option value='T'>text</option>";
@@ -138,7 +139,6 @@
         }
 
         let result = duplicateCheck(menuCode);
-
         // 값이 있으면
         if (result > 0) {
             alert("이미 중복된 메뉴코드가 있습니다.\n다른 코드를 입력 해주세요.");
