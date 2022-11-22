@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="layout/fragments/head :: head" />
 <body>
 <div class="container">
 
@@ -16,7 +16,7 @@
     </form>
 
     <a th:href="@{/file/list}">목록</a>
-<div th:replace="fragments/footer :: footer" />
+
 </div>
 </body>
 </html>

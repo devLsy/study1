@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/header :: header" />
+<head th:replace="layout/fragments/head :: head" />
 <body>
 
 <div class="container">
@@ -14,7 +14,7 @@
         <span><a th:href="@{/admin/board/list}" th:text="게시판관리"></a></span>
         <span><a th:href="@{/admin/user/list}" th:text="회원관리"></a></span>
 
-        <div th:replace="fragments/footer :: footer" />
+
 
     </div> <!-- /container -->
 

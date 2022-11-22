@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="layout/fragments/head :: head" />
 <body>
 
 <div class="container">
@@ -17,7 +17,7 @@
             <button type="submit">로그인</button>
             <span><a th:href="@{/member/join}">회원가입</a></span>
 
-            <div th:replace="fragments/footer :: footer" />
+
 
             <a th:href="@{'/'}">메인으로 이동</a>
         </div> <!-- /container -->
