@@ -95,12 +95,23 @@
         let addMenu = "<input type='text' id='menuCode' name='menuCode' placeholder='메뉴코드명을 입력하세요.(영문)'> <br>";
             addMenu += "<input type='text' id='menuName' name='menuName' placeholder='메뉴명을 입력하세요.'> <br>";
             addMenu += "<select id='menuType' name='menuType'>";
-            addMenu += "<option value=''>선택 해주세요.</option>";
+            addMenu += "<option value=''>메뉴 타입을 선택 해주세요.</option>";
             addMenu += "<option value='T'>text</option>";
             addMenu += "<option value='TA'>text-area</option>";
             addMenu += "<option value='F'>file</option>";
             addMenu += "<option value='S'>select-box</option>";
             addMenu += "<option value='CH'>check-box</option>";
+            addMenu += "</select><br>";
+
+            addMenu += "<select id='columnType' name='columnType'>";
+            addMenu += "<option value=''>컬럼 타입을 선택 해주세요.</option>";
+            addMenu += "<option value='BIGINT'>BIGINT</option>";
+            addMenu += "<option value='BOOLEAN'>BOOLEAN</option>";
+            addMenu += "<option value='CHARACTER VARYING'>CHARACTER VARYING</option>";
+            addMenu += "<option value='DOUBLE PRECISION'>DOUBLE PRECISION</option>";
+            addMenu += "<option value='INTEGER'>INTEGER</option>";
+            addMenu += "<option value='TIMESTAMP'>TIMESTAMP</option>";
+            addMenu += "<option value='TIMESTAMP WITH TIME ZONE'>TIMESTAMP WITH TIME ZONE</option>";
             addMenu += "</select>";
         $("#menuArea").html(addMenu);
         $("#submitBtn").show();
@@ -109,6 +120,7 @@
     function check() {
         let menuCode = $("#menuCode").val();
         let menuName = $("#menuName").val();
+        let columnType = $("#columnType").val();
 
         // 유효성 체크 하는 것 따로 뺄 것
         if (menuCode === undefined || menuCode === "" || menuCode === " ") {
@@ -143,6 +155,12 @@
         if($("#menuType").val() == ''){
             alert("메뉴타입은 필수값입니다.");
             $("#menuType").focus();
+            return false;
+        }
+
+        if($("#columnType").val() == ''){
+            alert("컬럼타입은 필수값입니다.");
+            $("#columnType").focus();
             return false;
         }
 
