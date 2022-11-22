@@ -2,6 +2,7 @@ package paging.study.mapper;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import paging.study.domain.Criteria;
 import paging.study.domain.vo.BoardVO;
@@ -39,7 +40,8 @@ public interface BoardMapper {
     @Delete("DELETE FROM t_board WHERE board_seq = #{boardSeq}")
     void deleteBoard(Long boardSeq);
 
-    void addBoardField(String boardField);
+//    void addBoardField(String boardField);
+    void addBoardField(@Param("boardField") String boardField, @Param("menuType") String menuType);
 
     void delBoardField(String boardField);
 }

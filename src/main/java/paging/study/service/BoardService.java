@@ -79,9 +79,8 @@ public class BoardService {
     }
 
     @Transactional
-    public void addBoardField(String boardField) {
-        log.info("boardField : " + boardField);
-        boardMapper.addBoardField(boardField);
+    public void addBoardField(String boardField, String menuType) {
+        boardMapper.addBoardField(boardField, menuType);
     }
     @Transactional
     public void delBoardField(String boardField) {

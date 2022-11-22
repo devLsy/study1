@@ -59,4 +59,15 @@ class BoardServiceTest {
         param.put("tableName", TableName);
         boardService.findTest(param);
     }
+
+    @Test
+    @DisplayName("addField")
+    @Commit
+    public void addField() {
+        //given
+        boardService.addBoardField("gasi", "int");
+        // when
+
+        //then
+    }
 }

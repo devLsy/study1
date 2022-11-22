@@ -68,7 +68,7 @@ public class MenuController {
         try {
             menuService.findMenuCodeCnt(menuVO.getMenuCode());
             menuService.createMenu(menuVO);
-            boardService.addBoardField(menuVO.getMenuCode());
+            boardService.addBoardField(menuVO.getMenuCode(), menuVO.getMenuType());
         } catch (Exception e) {
             e.printStackTrace();
         }
